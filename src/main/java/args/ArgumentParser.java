@@ -1,5 +1,6 @@
 package args;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +13,9 @@ public class ArgumentParser {
 
     public Args parse(String input) {
         Args args = new Args();
-        if (input.contains("-l")) {
-            args.putBoolean("-l", true);
+        String[] tokens = input.split("\\s");
+        for (String token : tokens) {
+            args.putBoolean(token, true);
         }
         return args;
     }
