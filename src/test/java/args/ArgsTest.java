@@ -44,4 +44,15 @@ public class ArgsTest {
         assertTrue(args.getBoolean("-v"));
     }
 
+    @Test
+    void test4() {
+        parser.addArgument(new Argument("-l", ArgumentType.BOOL));
+        parser.addArgument(new Argument("-v", ArgumentType.BOOL));
+
+        Args args = parser.parse("-v");
+
+        assertFalse(args.getBoolean("-l"));
+        assertTrue(args.getBoolean("-v"));
+    }
+
 }
