@@ -1,7 +1,9 @@
 package args;
 
+import javax.swing.plaf.nimbus.AbstractRegionPainter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.DoubleConsumer;
 
 public class ArgumentParser {
     private Map<String, ArgumentType> types = new HashMap();
@@ -11,23 +13,40 @@ public class ArgumentParser {
     }
 
     public Args parse(String input) {
-        Args args = new Args();
         String[] tokens = input.split("\\s");
-        ArgumentType waitType = null;
-        String key = null;
-        for (String token : tokens) {
-            if (waitType == ArgumentType.STRING) {
-                args.putString(key, token);
-            }
+        return parseTokens(tokens);
+    }
 
+    private Args parseTokens(String[] tokens) {
+        Args args = new Args();
+
+        String key = null;
+        ArgumentType waitValueOfType = null;
+
+        for (String token : tokens) {
+            if (waitValueOfType != null) {
+                if (waitValueOfType == ArgumentType.STRING) {
+                    args.putString(key, token);
+                    key = null;
+                    waitValueOfType = null;
+                } else if (waitValueOfType == ArgumentType.INTEGER) {
+                    args.putInteger(key, Integer.parseInt(token));
+                    key = null;
+                    waitValueOfType = null;
+                }
+            }
             ArgumentType type = types.get(token);
             if (type == ArgumentType.BOOL) {
                 args.putBoolean(token, true);
             } else if (type == ArgumentType.STRING) {
-                waitType = type;
                 key = token;
+                waitValueOfType = type;
+            } else if (type == ArgumentType.INTEGER) {
+                key = token;
+                waitValueOfType = type;
             }
         }
         return args;
     }
+
 }

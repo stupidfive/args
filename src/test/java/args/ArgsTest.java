@@ -1,6 +1,7 @@
 package args;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,14 +52,35 @@ public class ArgsTest {
     }
 
     @Test
-    void test1() {
+    void testString1() {
         Args args = parser.parse("-d /usr/logs");
         assertEquals("/usr/logs", args.getString("-d"));
     }
 
     @Test
-    void test2() {
+    void testString2() {
         Args args = parser.parse("-d /usr/bin");
         assertEquals("/usr/bin", args.getString("-d"));
+    }
+
+    @Test
+    void testMultipleString() {
+        parser.addArgument(new Argument("-u", ArgumentType.STRING));
+
+        Args args = parser.parse("-d /usr/bin -u root");
+        assertEquals("/usr/bin", args.getString("-d"));
+        assertEquals("root", args.getString("-u"));
+    }
+
+    @Test
+    void testIntegerArgument() {
+        Args args = parser.parse("-p 8080");
+        assertEquals(8080, args.getInteger("-p"));
+    }
+
+    @Test
+    void testIntegerArgument2() {
+        Args args = parser.parse("-p 9090");
+        assertEquals(9090, args.getInteger("-p"));
     }
 }
