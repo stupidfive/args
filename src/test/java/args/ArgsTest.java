@@ -83,4 +83,12 @@ public class ArgsTest {
         Args args = parser.parse("-p 9090");
         assertEquals(9090, args.getInteger("-p"));
     }
+
+    @Test
+    void testFlagAsValue() {
+        parser.addArgument(new Argument("-u", ArgumentType.STRING));
+        Args args = parser.parse("-d -d -u -u");
+        assertEquals("-d", args.getString("-d"));
+        assertEquals("-u", args.getString("-u"));
+    }
 }
