@@ -11,13 +11,11 @@ public class ArgsTest {
     @BeforeEach
     void setUp() {
         parser = new ArgumentParser();
+        parser.addArgument(new Argument("-l", ArgumentType.BOOL));
     }
 
     @Test
     void testBooleanFlag() {
-        Argument arg = new Argument("-l", ArgumentType.BOOL);
-        parser.addArgument(arg);
-
         Args args = parser.parse("-l");
 
         assertTrue(args.getBoolean("-l"));
@@ -25,9 +23,6 @@ public class ArgsTest {
 
     @Test
     void testBooleanFlagFalse() {
-        Argument arg = new Argument("-l", ArgumentType.BOOL);
-        parser.addArgument(arg);
-
         Args args = parser.parse("");
 
         assertFalse(args.getBoolean("-l"));
@@ -35,7 +30,6 @@ public class ArgsTest {
 
     @Test
     void testBooleanFlagTwice() {
-        parser.addArgument(new Argument("-l", ArgumentType.BOOL));
         parser.addArgument(new Argument("-v", ArgumentType.BOOL));
 
         Args args = parser.parse("-l -v");
@@ -46,7 +40,6 @@ public class ArgsTest {
 
     @Test
     void test4() {
-        parser.addArgument(new Argument("-l", ArgumentType.BOOL));
         parser.addArgument(new Argument("-v", ArgumentType.BOOL));
 
         Args args = parser.parse("-v");
