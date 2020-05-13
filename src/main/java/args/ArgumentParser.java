@@ -13,8 +13,20 @@ public class ArgumentParser {
     public Args parse(String input) {
         Args args = new Args();
         String[] tokens = input.split("\\s");
+        ArgumentType waitType = null;
+        String key = null;
         for (String token : tokens) {
-            args.putBoolean(token, true);
+            if (waitType == ArgumentType.STRING) {
+                args.putString(key, token);
+            }
+
+            ArgumentType type = types.get(token);
+            if (type == ArgumentType.BOOL) {
+                args.putBoolean(token, true);
+            } else if (type == ArgumentType.STRING) {
+                waitType = type;
+                key = token;
+            }
         }
         return args;
     }

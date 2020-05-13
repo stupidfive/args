@@ -1,5 +1,5 @@
 package args;
 
 public enum ArgumentType {
-    BOOL,
+    BOOL, INTEGER, STRING,
 }

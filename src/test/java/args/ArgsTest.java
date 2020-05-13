@@ -12,6 +12,8 @@ public class ArgsTest {
     void setUp() {
         parser = new ArgumentParser();
         parser.addArgument(new Argument("-l", ArgumentType.BOOL));
+        parser.addArgument(new Argument("-p", ArgumentType.INTEGER));
+        parser.addArgument(new Argument("-d", ArgumentType.STRING));
     }
 
     @Test
@@ -48,4 +50,15 @@ public class ArgsTest {
         assertTrue(args.getBoolean("-v"));
     }
 
+    @Test
+    void test1() {
+        Args args = parser.parse("-d /usr/logs");
+        assertEquals("/usr/logs", args.getString("-d"));
+    }
+
+    @Test
+    void test2() {
+        Args args = parser.parse("-d /usr/bin");
+        assertEquals("/usr/bin", args.getString("-d"));
+    }
 }
